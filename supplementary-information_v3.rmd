@@ -1,0 +1,840 @@
+---
+title: "Supplementary information"
+author: 
+  - name: Anaïs L. Vignoles
+    affiliation: University of Cologne
+    orcid: 0000-0001-5027-2037
+  - name: Shumon T. Hussain
+    affiliation: University of Cologne
+    orcid: 0000-0002-6215-393X
+date: "`r Sys.Date()`"
+output: 
+  bookdown::html_document2:
+    code_folding: hide
+    toc: yes
+    toc_float: yes
+    number_sections: yes
+    fig_caption: yes
+    theme: sandstone
+    highlight: zenburn
+bibliography: "biblio-suppl.bib"
+nocite: "@*"
+link_citations: true
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE, warning = FALSE, message = FALSE, fig.width = 10)
+
+```
+
+This supplementary document groups together data and code for the
+analysis presented in Hussain et al. *Technospheric Dynamics in the Deep
+Human Past: Multi-Level Causation in the Macroevolution of Late
+Pleistocene Lithic Technology*. One can access code and data of this
+supplementary material through [this
+link](https://github.com/ALVignoles/Technological-holarchies) 
+
+The packages used in this paper are listed below. 
+
+```{r packages}
+
+library(viridis)
+library(nortest)
+library(onewaytests)
+
+# this helper function for replacing values based on a correspondence table is also coded here 
+replace_values <- function(corresp.table, word1, word2, replaced.values){
+  for(i in 1:nrow(corresp.table)) {
+  search_keyword <- corresp.table[i,word1]
+  replace_keyword <- corresp.table[i, word2]
+  
+  replaced.values <- sapply(replaced.values, function(x){
+    x[x==search_keyword] <- replace_keyword
+    return(x)
+  })
+  }
+  return(replaced.values)
+}
+
+```
+
+# Presentation of the data set
+
+We re-analyze the data shared in the framework of a study conducted by
+[Rezek et al. in 2018](https://doi.org/10.1038/s41559-018-0488-4). Two
+csv tables and a pdf were downloaded at
+<https://www.nature.com/articles/s41559-018-0488-4#Sec9>. Before we
+present our re-analysis, we first summarize Rezek et al. 2018
+methodology to build the data set and provide a critical opinion on the
+quality of the data set. 
+
+## Methodology
+
+The data set consists of flake size measurements for 81 assemblages from
+34 sites in Africa, south-west Asia and western Europe. Only unmodified
+and complete flakes were taken into account; their width, length and
+thickness were measured, as well as other traits that will not be
+discussed here. Only flakes larger/longer than 25 mm were measured. Abri
+Pataud assemblages have not been measured in totality, but only through
+a random sample of at least 100 flakes per layer. No contextual
+information is given, except: 
+
+*"Many of the assemblages were excavated using modern archaeological
+standards"* [@Rezek2018, p.1]. 
+
+The proxy used in Rezek et al. to infer cognition evolution is the ratio
+between sharp edge amount and flake size, hereby referred to as EFS
+ratio. 
+
+## A critique of Rezek et al. approach to macro-archaeology data sets building
+
+Before re-using the data set provided in Rezek et al. 2018, we would
+like to state a number of issues that, in our opinion, compromises the
+quality, and therefore the reusability, of this data set. Because our
+literature review was mostly focuses on European sites, the comments
+will rely more on examples from South-Western France assemblages. 
+
+- **Cultural attributions are sometimes erroneous**, and not in line
+  with research published at the time of submission (18-09-2017). For
+  example, Quina-type *débitage* is not demonstrated in level 3 at Roc
+  de Marsal, where Levallois and Laminaire have been described
+  [@Turq2017]. Moreover, level 31 at Laugerie Haute-Est is also not
+  generally considered Lower Solutrean, but Proto-Solutrean
+  [@Demars1995].\
+
+- From a general point of view, **many of these assemblages have not
+  been revised recently**, which makes it difficult to assess the
+  quality of chrono-cultural attribution. Level 40 of Laugerie Haute-Est
+  is a good example, its lithic industry has never been reviewed since
+  its initial publication in 1958 by F. Bordes [@Cormareche2024, p.172].
+
+- In addition, altough *"many of the assemblages were excavated using
+  modern archaeological standards"* [@Rezek2018, p.1], **excavation
+  methodology remains highly heterogeneous**, ranging from 1912 to 2014.
+  Most assemblages were excavated in the 1950-1980s, a period
+  characterized by an important variability in excavation practices that
+  have been shown to not always correspond to modern standards [for a
+  review targeting the Middle and Recent Gravettian, see @Vignoles2024].
+  The example of Pataud is striking: Movius' excavations are often
+  considered highly qualitative, and they were indeed visionary for the
+  period during which they took place [@Movius1975]. However, recent
+  excavations of layer 2 led by R. Nespoulet and L. Chiotti in the 2000s
+  have shown that the Movius assemblage lacks smaller items that are
+  essential to interpret Final Gravettian llithic industries for example
+  [@Nespoulet2008]. It is also well known that the Fourneau-du-Diable
+  assemblage from the Peyrony collections is highly sorted, with little
+  regard to unretouched material [@Baumann2016; @Vignoles2019].
+
+- **Levels homogeneity is not discussed** while some levels are clearly
+  mixed OR have not been assessed while we know that such contexts can
+  be mixed (mainly rock shelters). Most assemblages (if not all) from
+  Upper Paleolithic contexts are involved. For example, level 8 at Roc
+  de Combe presents several intrusions from level 7 (Aurignacian) and
+  level 9 (Mousterian) [@Bordes2003]. Another striking example is that
+  of Fourneau du Diable Peyrony collection, which is a highly sorted and
+  mixed collection [@Vignoles2019] that might contain a Magdalenian
+  component [@Baumann2016]. This is also probably the case at other
+  rockshelter sites that have not been revised from a contextual point
+  of view, such as La Madeleine (where levels 5-6 were interpreted as
+  interface layers; [@Bundgen2002]) or Laugerie Haute-Est.  
+
+- **Some of these assemblages have been demonstrated to group different
+  archaeological units together**. For example, the Middle Gravettian is
+  divided into Noaillian and Rayssian which have been shown to have
+  different typo-technical characteristics [@David1985; @Klaric2007].
+  The case is also true for the Badegoulian that has an internal phasing
+  [@Cretin2007]. Finally, some assemblages have been classified as
+  different subdivisions of techno-complexes while they are highly
+  similar from a typo-technical standpoint (layers 30 and 28-21 at
+  Laugerie Haute-est, [@Demars1995]). 
+
+- **The measurements were made on artefacts bigger than 2cm, which
+  undermines greatly the variability of industries that have a strong
+  bladelet component**, such as the Final Gravettian in particular
+  [@Nespoulet2008]. 
+
+- Finally, **Cited articles for a chronocultural attribution do not
+  actually demonstrate these attributions** from the point of view of
+  the material culture, but rather based on dating articles or old
+  typological analysis (eg., level 5 of Abri Pataud; Roc de Combe layer
+  8, for which articles referring to Mousterian and Aurignacian
+  assemblages are cited [@Bordes2003; @Lorenzo2014]). 
+
+# Exploring the EFS ratio variability according to chrono-cultural attributions of assemblages
+
+In this section, we explore flake size variability according to
+chrono-cultural attributions of assemblages. 
+
+## Data preparation
+
+We first load the two tables provided in the supplementary data and
+correct a couple of typos in the tables. 
+
+```{r load}
+
+data <- read.csv("41559_2018_488_MOESM3_ESM.csv")
+head(data)
+
+rezek_summary <- read.csv("41559_2018_488_MOESM4_ESM.csv")
+head(rezek_summary)
+
+# correcting typos
+rezek_summary$Assemblage.code[rezek_summary$Assemblage.code == "W-A-CC"] <- "W-A-CCC"
+rezek_summary$Archaeological.industry[rezek_summary$Archaeological.industry == "Middle Gravetian"] <- "Middle Gravettian"
+
+```
+
+When exploring the two tables, we can see that chrono-cultural
+attributions of individual artefacts in the "MOESM3" table and of
+individual levels in the "MOESM4" table are different. Considering the
+later to be more accurate (contains all of the subdivisions of the Upper
+Palaoelithic for eg.), we re attribute individual artefacts of table
+"MOESM3" to their level attribution in table "MOESM4". 
+
+```{r homogeneize}
+
+data$industry_MOESM4 <- replace_values(rezek_summary, "Assemblage.code", "Archaeological.industry", data$Assemblage.code)
+
+head(data)
+
+```
+
+Data are then ordered according to chrono-cultural attributions... 
+
+```{r order}
+
+unique(data$industry_MOESM4)
+industries <- c("Oldowan", "Oldowan (Developed)", "Acheulian", "Karari", "Khormusan", "Middle Stone Age of NW Africa",
+                
+                "Levantine Mousterian", "Zagros Mousterian", "Ahmarian", "Levantine Aurignacian",                                    
+                "Mousterian", "Quina Mousterian", "Mousterian of Acheulian Tradition", "Chatelperronian", "Early Aurignacian", 
+                "Recent Aurignacian", "Early Gravettian", "Middle Gravettian", "Recent Gravettian", "Final Gravettian" , 
+                "Lower Solutrean", "Middle Solutrean", "Upper Solutrean", "Badegoulian", "Lower Magdalenian", 
+                "Middle Magdalenian", "Upper Magdalenian")
+
+```
+
+... and a color palette is coded for the three regions. 
+
+```{r pal1}
+
+colors <- industries
+
+colors[1:6] <- cividis(3)[3]
+colors[7:10] <- cividis(3)[1]
+colors[11:length(colors)] <- cividis(3)[2]
+
+```
+
+## Summarizing EFS ratio data for each archaeological unit
+
+Since median EFS ratio for individual assemblages was the only available
+value in table "MOESM4", we recalculate quantiles, as well as variance,
+for each chrono-cultural attribution. 
+
+```{r summ-arch}
+
+summary_industry <- data.frame(industry = NA, 
+                      ratio_min = NA, ratio_25 = NA, median = NA, ratio_75 = NA, ratio_max = NA, var = NA)
+
+for(i in 1:length(industries)){
+  assemb <- subset(data, data$industry_MOESM4 == industries[i])
+  
+  ratio <- assemb$length.width.thickness.2
+  ratio <- na.omit(as.numeric(ratio))
+  
+  q <- quantile(ratio)
+  
+  var <- var(ratio)
+  
+  sum <- c(assemb$industry_MOESM4[1], q, var)
+  summary_industry <- na.omit(rbind(summary_industry, sum))
+}
+
+summary_industry$industry <- factor(summary_industry$industry, levels = industries)
+
+head(summary_industry)
+
+```
+
+The data is ready to be visualized. 
+
+## Views of the data
+
+Next are different views of the data ordered in different ways. 
+
+### EFS ratio distributions ordered by chronology and region
+
+```{r chronology}
+
+summary_industry <- summary_industry[order(summary_industry$industry),]
+summary_industry$col <- colors
+summary_industry$y <- c(1:nrow(summary_industry))
+
+plot(x = 1, col = "white", xlim = c(0,550), ylim = c(0,28),
+     xlab = "sharp edge/flake size ratio", ylab = "", yaxt = "n", bty = "n")
+
+segments(x0 = as.numeric(summary_industry$ratio_min), x1 = as.numeric(summary_industry$ratio_max), y0 = summary_industry$y, lwd = 1.5)
+segments(x0 = as.numeric(summary_industry$ratio_25), x1 = as.numeric(summary_industry$ratio_75), y0 = summary_industry$y, lwd = 4)
+points(x = summary_industry$median, y = summary_industry$y,
+       pch = 23, cex=1.3, bg = summary_industry$col)
+
+text(x=as.numeric(summary_industry$ratio_max)+10, y=summary_industry$y, labels = summary_industry$industry, adj = 0, 
+     cex = 0.8)
+legend(x = 420, y = 28, legend = c("Africa", "Near East", "Europe"), cex = 0.7, fill = c(cividis(3)[3], cividis(3)[c(1,2)]))
+
+```
+
+### EFS ratio distributions ordered by median value
+
+```{r median}
+summary_median <- summary_industry[order(as.numeric(summary_industry$median)),]
+summary_median$y <- c(1:nrow(summary_median))
+
+plot(x = 1, col = "white", xlim = c(0,550), ylim = c(0,28),
+     xlab = "sharp edge/flake size ratio", ylab = "", yaxt = "n", bty = "n")
+
+segments(x0 = as.numeric(summary_median$ratio_min), x1 = as.numeric(summary_median$ratio_max), y0 = summary_median$y, lwd = 1.5)
+segments(x0 = as.numeric(summary_median$ratio_25), x1 = as.numeric(summary_median$ratio_75), y0 = summary_median$y, lwd = 4)
+points(x = summary_median$median, y = summary_median$y,
+       pch = 23, cex=1.3, bg = summary_median$col)
+
+text(x=as.numeric(summary_median$ratio_max)+10, y=summary_median$y, labels = summary_median$industry, adj = 0, 
+     cex = 0.8)
+legend(x = 420, y = 8, legend = c("Africa", "Near East", "Europe"), cex = 0.7, fill = c(cividis(3)[3], cividis(3)[c(1,2)]))
+
+```
+
+### EFS ratio distributions ordered by ecartype (interquantile range)
+
+```{r ecartype}
+summary_industry$et <- as.numeric(summary_industry$ratio_75) - as.numeric(summary_industry$ratio_25)
+summary_ecartype <- summary_industry[order(as.numeric(summary_industry$et)),]
+summary_ecartype$y <- c(1:nrow(summary_ecartype))
+
+plot(x = 1, col = "white", xlim = c(0,550), ylim = c(0,28),
+     xlab = "sharp edge/flake size ratio", ylab = "", yaxt = 'n', bty = "n")
+
+segments(x0 = as.numeric(summary_ecartype$ratio_min), x1 = as.numeric(summary_ecartype$ratio_max), y0 = summary_ecartype$y, lwd = 1.5)
+segments(x0 = as.numeric(summary_ecartype$ratio_25), x1 = as.numeric(summary_ecartype$ratio_75), y0 = summary_ecartype$y, lwd = 4)
+points(x = summary_ecartype$median, y = summary_ecartype$y,
+       pch = 23, cex=1.3, bg = summary_ecartype$col)
+
+text(x=as.numeric(summary_ecartype$ratio_max)+10, y=summary_ecartype$y, labels = summary_ecartype$industry, adj = 0, 
+cex = 0.8)
+legend(x = 420, y = 4.5, legend = c("Africa", "Near East", "Europe"), cex = 0.7, fill = c(cividis(3)[3], cividis(3)[c(1,2)]))
+
+```
+
+### EFS ratio distributions ordered by full range
+
+```{r range}
+summary_industry$rg <- as.numeric(summary_industry$ratio_max) - as.numeric(summary_industry$ratio_min)
+summary_range <- summary_industry[order(as.numeric(summary_industry$rg)),]
+summary_range$y <- c(1:nrow(summary_range))
+
+plot(x = 1, col = "white", xlim = c(0,550), ylim = c(0,28),
+     xlab = "sharp edge/flake size ratio", ylab = "", yaxt = "n", bty = "n")
+
+segments(x0 = as.numeric(summary_range$ratio_min), x1 = as.numeric(summary_range$ratio_max), y0 = summary_range$y, lwd = 1.5)
+segments(x0 = as.numeric(summary_range$ratio_25), x1 = as.numeric(summary_range$ratio_75), y0 = summary_range$y, lwd = 4)
+points(x = summary_range$median, y = summary_range$y,
+       pch = 23, cex=1.3, bg = summary_range$col)
+
+text(x=as.numeric(summary_range$ratio_max)+10, y=summary_range$y, labels = summary_range$industry, adj = 0, 
+     cex = 0.8)
+legend(x = 420, y = 5, legend = c("Africa", "Near East", "Europe"), cex = 0.7, fill = c(cividis(3)[3], cividis(3)[c(1,2)]))
+```
+
+# A zoom on Europe: incorporating technology into the data set
+
+In this section, we experiment incorporating technological information
+in the data set, by associating technical systems identification to
+individual assemblages. We conducted this work solely on the European
+sites because of limited time devoted to analysis. All sites are located
+in Northern Aquitaine region, which in addition gives a better
+geographic coherence to the results. 
+
+The data set is then filtered to keep European sites... 
+
+```{r europe}
+
+data_europe <- data[data$industry_MOESM4 %in% c("Mousterian", "Quina Mousterian", "Mousterian of Acheulian Tradition", "Chatelperronian", "Early Aurignacian", 
+                                         "Recent Aurignacian", "Early Gravettian", "Middle Gravettian", "Recent Gravettian", "Final Gravettian" , 
+                                         "Lower Solutrean", "Middle Solutrean", "Upper Solutrean", "Badegoulian", "Lower Magdalenian", 
+                                         "Middle Magdalenian", "Upper Magdalenian"),]
+```
+
+... and assemblages are recoded to be associated with higher level
+system (techno-complexes), to simplify some of the figures. 
+
+```{r TCL-recode}
+recode.ind <- data.frame(industry = c("Mousterian of Acheulian Tradition", "Early Aurignacian", "Recent Aurignacian", 
+                                      "Early Gravettian", "Middle Gravettian", "Recent Gravettian", "Final Gravettian", 
+                                      "Lower Solutrean", "Middle Solutrean", "Upper Solutrean",
+                                      "Lower Magdalenian", "Middle Magdalenian", "Upper Magdalenian"),
+                         TCL = c("MTA", "Aurignacian", "Aurignacian",
+                                 "Gravettian", "Gravettian", "Gravettian", "Gravettian", 
+                                 "Solutrean", "Solutrean", "Solutrean",
+                                 "Magdalenian", "Magdalenian", "Magdalenian"))
+
+data_europe$TCL <- replace_values(recode.ind, "industry", "TCL", as.character(data_europe$industry_MOESM4))
+
+data_europe <- data_europe[!is.na(data_europe$length.width.thickness.2),] 
+head(data_europe)
+
+```
+
+## A literature review of individual levels technological characteristics
+
+We conducted a literature review of individual levels technological
+characteristics. We started from references listed in the supplementary
+material pdf file, as well as recent academic work and synthesis papers.
+When technological data was unavailable, we estimated presence of
+technical systems (*eg.*, miscellaneous blade and bladelet *débitages*)
+from drawings and general typological descriptions in older body of
+literature. We also provide some contextual information and precision
+about research biases whenever we deemed necessary, in order to better
+assess the quality of information gathered in the literature. The result
+of this work is available in Table 1. 
+
+![Table 1: Litterature review for technological systems identification in the assemblages analyzed by Rezek et al. 2018](table1.png)
+
+## Coding technological data resulting from literature review
+
+Following Table 1, we code technological information in
+the following way:
+
+### Full data set
+
+For each assemblage, we code information for 4 types of technological
+systems: bifacial shaping, flake systems, blade systems and bledelet
+systems. The data was recorded as pres, abs and na (not available). 
+
+```{r code-techno}
+
+assemb <- c("AP-U2", "AP-L3B", "AP-U3A", "AP-L3A", "RDM5", "RDM6", "RDM7", "RDM8", "RDM9",
+            "PDA4C", "PDA5A", "PDA5B", "PDA6A", "PDA6B", "PDA8", "RDM2", "RDM3", "RDM4",
+            "PDA4A", "CCI1D", "CCI1E", "CCI1D1", "CCI2A", "CCI2B", "CCII4A", "CCII4B", "CCII4C",  
+            "CCII4E", "PDA3A", "PDA3B", "COT3", "RC8", "AP14", "AP13", "AP12", "AP11", "AP9-10",  
+            "AP8", "AP7", "AP6", "AP5", "AP4", "AP3", "LHE40", "AP2", "LHE36-38", "LHE31", "LHE30", 
+            "LHE21-28", "FD-U", "LHE18-20", "LHE10-16", "LHE4-8", "LHE2-3", "MAD5-6")
+
+techno.data <- data.frame(assemb = assemb, 
+                          bifacial = c("Bif", "Bif", "Bif","Bif", # Abri Peyrony
+                                       "abs", "abs", "abs", "abs", "Bif", #  Roc de Marsal
+                                       "abs", "abs", "abs", "abs", "abs", "abs", # Pech de l'Aze IV
+                                       "abs", "abs", "abs", # Roc de Marsal
+                                       "abs", # Pech de l'Aze IV
+                                       "abs", "abs", "abs", "abs", "abs", "abs", "abs", "abs", "abs", # Combe Capelle bas
+                                       "Bif", "Bif", # Pech de l'Aze IV
+                                       "abs", # La Cote
+                                       "abs", # Roc de Combe
+                                       "abs", "abs", "abs", "abs", "abs", # Abri Pataud 14-9
+                                       "abs", "abs", "abs", # Abri Pataud 6-8 
+                                       "abs", # Abri Pataud 5
+                                       "abs", # Abri Pataud 4
+                                       "abs", # Abri Pataud 3
+                                       "abs", # Laugerie Haute E
+                                       "abs", # Abri Pataud 2 
+                                       "abs", # Laugerie Haute E
+                                       "na", "na", "na", # Laugerie Haute E
+                                       "solut bif", # FDD
+                                       "na", "na",
+                                       "na", "na", "na"
+                          ),
+                          eclats = c("na", "na", "na", "na", # Abri Peyrony
+                                     "Levallois", "Levallois", "Levallois", "Quina", "Quina", #  Roc de Marsal
+                                     "Levallois, Kombewa", "Levallois, Kombewa", "Levallois, Kombewa", "Levallois, Kombewa", "Levallois, Kombewa", "Levallois, Kombewa", # Pech de l'Aze IV
+                                     "Levallois", "Levallois", "Levallois", # Roc de Marsal
+                                     "na", # Pech de l'Aze IV
+                                     "Quina", "Quina", "Quina", "Quina", "Quina", "Quina", "Quina", "Quina", "Quina", # Combe Capelle Bas
+                                     "Levallois, Discoid", "Levallois, Discoid", # Pech de l'Aze IV
+                                     "abs", # La Cote
+                                     "abs", # Roc de Combe
+                                     "eclats", "eclats", "eclats", "eclats", "eclats", # Abri Pataud 14-9
+                                     "eclats", "eclats", "eclats", # Abri Pataud 6-8
+                                     "na", # Abri Pataud 5
+                                     "eclats", # Abri Pataud 4
+                                     "aneg", #  Abri Pataud 3
+                                     "na", # Laugerie Haute E
+                                     "aneg", # Abri Pataud 2
+                                     "na", # Laugerie Haute E
+                                     "na", "na", "na", # Laugerie Haute E
+                                     "na", # FDD
+                                     "debitage d'eclats normalises, eclats laminaires", "debitage d'eclats normalises, eclats laminaires", 
+                                     "na", "na", "na"
+                          ),
+                          laminaire = c("abs", "abs", "abs", "abs", # Abri Peyrony
+                                        "abs", "abs", "abs", "abs", "abs", #  Roc de Marsal
+                                        "abs", "abs", "abs", "abs", "abs", "MP Lamn", # Pech de l'Aze IV
+                                        "abs", "MP Lamn", "abs", # Roc de Marsal
+                                        "abs", # Pech de l'Aze IV
+                                        "abs", "abs", "abs", "abs", "abs", "abs", "abs", "abs", "abs", # Combe Capelle bas
+                                        "abs", "abs", # Pech de l'Aze IV
+                                        "Frontal, semi-tournant, en amande", # La Cote
+                                        "Frontal, semi-tournant, en amande", # Roc de Combe
+                                        "prismatique", "prismatique", "prismatique", "prismatique", "prismatique", # Abri Pataud 14-9
+                                        "unipolaire", "unipolaire", "unipolaire", # Abri Pataud 6-8
+                                        "pres", # Abri Pataud 5
+                                        "unipolaire", # Abri Pataud 4
+                                        "frontal uni bipolaire", # Abri Pataud 3
+                                        "pres", # Laugerie Haute E
+                                        "grandes lames eperon", # Abri Pataud 2
+                                        "pres", # Laugerie Haute E
+                                        "pres", "pres", "pres", # Laugerie Haute E
+                                        "pres", # FDD
+                                        "pres", "pres",
+                                        "pres", "pres", "na"
+                          ),
+                          lamellaire = c("abs", "abs", "abs", "abs", # Abri Peyrony
+                                         "abs", "abs", "abs", "abs", "abs", #  Roc de Marsal
+                                         "abs", "abs", "abs", "abs", "abs", "abs", # Pech de l'Aze IV
+                                         "abs", "abs", "abs", # Roc de Marsal
+                                         "abs", # Pech de l'Aze IV
+                                         "abs", "abs", "abs", "abs", "abs", "abs", "abs", "abs", "abs", # Combe Capelle bas
+                                         "abs", "abs", # Pech de l'Aze IV
+                                         "tranche d'eclat", # La Cote
+                                         "na", # Roc de Combe
+                                         "carene, prismatique, intercale", "carene, prismatique, intercale", "carene, prismatique, intercale", "carene, prismatique, intercale", "carene, prismatique, intercale", # Abri Pataud 14-9
+                                         "carene", "carene, busque, vachons", "carene, busque, vachons", # Abri Pataud 6-8
+                                         "pres", # Abri Pataud 5
+                                         "methode Raysse, burins-nucleus", # Abri Pataud 4
+                                         "continuum, burins-nucleus", # Abri Pataud 3
+                                         "pres", # Laugerie Haute E
+                                         "lamel", # Abri Pataud 2
+                                         "pres", # Laugerie Haute E
+                                         "pres", "pres", "pres", # Laugerie Haute E
+                                         "pres", # FDD
+                                         "burins tranversaux", "burins tranversaux",
+                                         "pres", "pres", "na"
+                          )
+                          )
+                          
+head(techno.data)
+
+```
+
+### Summary data set
+
+Because of the uneveness in the precision of technological information
+gathered in the literature, we simplify these information at a higher
+level, by considering main families of systems: bifacial shaping,
+Levallois, Quina, Kombewa, Discoid, other flake *débitages*, Blade
+*débitages*, Bladelet *débitages*. We obtain a summary of main families
+of systems for each assemblage. 
+
+```{r summary-techno}
+
+techno.data$summary <- c("Bif", "Bif", "Bif","Bif", # Abri Peyrony
+                         "Lev", "Lev", "Lev", "Q", "Bif+Q", #  Roc de Marsal
+                         "Lev+Komb", "Lev+Komb", "Lev+Komb", "Lev+Komb", "Lev+Komb", "Lev+Komb+Blade", # Pech de l'Aze IV
+                         "Lev", "Lev+Blade", "Lev", # Roc de Marsal
+                         "", # Pech de l'Aze IV
+                         "Q", "Q", "Q", "Q", "Q", "Q", "Q", "Q", "Q", # Combe Capelle bas
+                         "Bif+Lev+D", "Bif+Lev+D", # Pech de l'Aze IV
+                         "Blade+Bladelet", # La Cote
+                         "Blade+Bladelet", # Roc de Combe
+                         "Flake+Blade+Bladelet", "Flake+Blade+Bladelet", "Flake+Blade+Bladelet", "Flake+Blade+Bladelet", "Flake+Blade+Bladelet", # Abri Pataud 14-9
+                         "Flake+Blade+Bladelet", "Flake+Blade+Bladelet", "Flake+Blade+Bladelet", # Abri Pataud 6-8 
+                         "Blade+Bladelet", # Abri Pataud 5
+                         "Flake+Blade+Bladelet", # Abri Pataud 4
+                         "Blade+Bladelet", # Abri Pataud 3
+                         "Blade+Bladelet", # Laugerie Haute E
+                         "Blade+Bladelet", # Abri Pataud 2 
+                         "Blade+Bladelet", # Laugerie Haute E
+                         "Blade+Bladelet", "Blade+Bladelet", "Bif+Blade+Bladelet", # Laugerie Haute E
+                         "Bif+Blade+Bladelet", # FDD
+                         "Flake+Blade", "Flake+Blade", # Badegoulian 
+                         "Blade+Bladelet", "Blade+Bladelet", "") # Magdalenian
+
+unique(techno.data$summary)
+
+```
+
+### Recoding data for each assemblage
+
+We then recode individual flake measurements to associate each one of
+them to technological systems identification. 
+
+```{r recode}
+
+data_europe$bifacial <- replace_values(techno.data, "assemb", "bifacial", data_europe$Assemblage.code)
+
+data_europe$eclats <- replace_values(techno.data, "assemb", "eclats", data_europe$Assemblage.code)
+
+data_europe$laminaire <- replace_values(techno.data, "assemb", "laminaire", data_europe$Assemblage.code)
+
+data_europe$lamellaire <- replace_values(techno.data, "assemb", "lamellaire", data_europe$Assemblage.code)
+
+data_europe$summary <- replace_values(techno.data, "assemb", "summary", data_europe$Assemblage.code)
+
+head(data_europe)
+
+```
+
+## Summarizing ratio data for each assemblage
+
+We summarize EFS ratio for each assemblage. 
+
+```{r ratio-techn}
+
+summary_assemb <- data.frame(assemb = NA, bifacial = NA, eclats = NA, laminaire = NA, lamellaire = NA,
+                             techn_syst = NA, industry = NA, TCL = NA,
+                             ratio_min = NA, ratio_25 = NA, median = NA, ratio_75 = NA, ratio_max = NA, var = NA)
+
+for(i in 1:length(assemb)){
+  df <- subset(data_europe, data_europe$Assemblage.code == assemb[i])
+  
+  ratio <- df$length.width.thickness.2
+  ratio <- na.omit(as.numeric(ratio))
+  
+  q <- quantile(ratio)
+  
+  var <- var(ratio)
+  
+  sum <- c(df$Assemblage.code[1], df$bifacial[1], df$eclats[1], df$laminaire[1], df$lamellaire[1], 
+           df$summary[1], paste(df$industry_MOESM4[1]), df$TCL[1], q, var)
+  summary_assemb <- na.omit(rbind(summary_assemb, sum))
+}
+
+summary_assemb$assemb <- factor(summary_assemb$assemb, levels = assemb)
+summary_assemb <- summary_assemb[order(summary_assemb$techn_syst),]
+summary_assemb$y <- c(1:nrow(summary_assemb))
+```
+
+We also code colors associated with each technical system, and shapes
+associated with each techno-complex. 
+
+```{r pal2}
+
+colors <- turbo(length(unique(summary_assemb$techn_syst)))
+summary_assemb$colors <- summary_assemb$techn_syst
+
+for(i in 1:length(colors)) {
+  search_keyword <- unique(summary_assemb$techn_syst)[i]
+  replace_keyword <- colors[i]
+  
+  summary_assemb$colors <- sapply(summary_assemb$colors, function(x){
+    x[x==search_keyword] <- replace_keyword
+    return(x)
+  })
+}
+
+shapes <- c(5, 3, 5, 4, 5, 0, 2, 6, 1)
+summary_assemb$shapes <- summary_assemb$TCL
+
+for(i in 1:length(shapes)) {
+  search_keyword <- unique(summary_assemb$TCL)[i]
+  replace_keyword <- shapes[i]
+  
+  summary_assemb$shapes <- sapply(summary_assemb$shapes, function(x){
+    x[x==search_keyword] <- replace_keyword
+    return(x)
+  })
+}
+
+```
+
+The data is ready to be visualized.  
+
+## Views of the data
+
+Next are different views of the data. 
+
+### EFS ratio distributions for individual assemblages, ordered by technical system identification
+
+```{r techn-syst, fig.height=6}
+
+plot(x = 1, col = "white", xlim = c(0,550), ylim = c(0,57),
+     xlab = "sharp edge/flake size ratio", ylab = "", yaxt = "n", bty = "n")
+
+segments(x0 = as.numeric(summary_assemb$ratio_min), x1 = as.numeric(summary_assemb$ratio_max), y0 = summary_assemb$y, lwd = 1.5)
+segments(x0 = as.numeric(summary_assemb$ratio_25), x1 = as.numeric(summary_assemb$ratio_75), y0 = summary_assemb$y, lwd = 4)
+points(x = summary_assemb$median, y = summary_assemb$y,
+       pch = 23, cex=1.3, bg = summary_assemb$colors)
+
+text(x=as.numeric(summary_assemb$ratio_max)+10, y=summary_assemb$y, labels = summary_assemb$assemb, adj = 0, 
+     cex = 0.8)
+legend(x = 400, y = 50, legend = rev(unique(summary_assemb$techn_syst)), cex = 0.7, fill = rev(colors))
+
+
+```
+
+### Median and ecartype of EFS ratio distributions for individual assemblages
+
+```{r med-rang, fig.height=6}
+par(mfrow = c(1,1), mar = c(5.1, 4.1, 4.1, 2.1) )
+    
+summary_assemb$et_rg <- as.numeric(summary_assemb$ratio_75) - as.numeric(summary_assemb$ratio_25)
+
+plot(x = 1, col = "white", xlim = c(0,100), ylim = c(0,57),
+     xlab = "sharp edge/flake size ratio", ylab = "", yaxt = "n", bty = "n")
+
+
+segments(x0 = as.numeric(summary_assemb$ratio_25), x1 = as.numeric(summary_assemb$ratio_75), y0 = summary_assemb$y, lwd = 1)
+points(x = summary_assemb$median, y = summary_assemb$y,
+       pch = as.numeric(summary_assemb$shapes), cex=1.3, lwd = 3,
+       col = summary_assemb$colors)
+
+legend(x = 71.5, y = 35, legend = rev(unique(summary_assemb$techn_syst)), cex = 0.8, fill = rev(colors))
+legend(x = 71.5, y = 55, legend = c("Mousterian", "Chatelperronian", "Aurignacian", "Gravettian",
+                                   "Solutrean", "Badegoulian", "Magdalenian"), cex = 0.8, 
+       pch = c(5, 0, 1, 2, 4, 6, 3), col = "black")
+
+```
+
+## Tests for statistical difference
+
+We analize these data further to see whether groups based on
+technological systems identification and techno-complex have
+significantly different distributions of EFS ratio. Since the
+technological data and techno-complex attribution are independent from
+individual flake measurements, we can explore whether these groups make
+sense from a point of view of the EFS ratio distributions. 
+
+### Data grouped by technological category
+
+We first explore morphometric coherence of technological categories. 
+
+Before running statistical differentiation tests, we check for each
+groups' distribution normality via a Lilliefors test [@Lilliefors1967]. 
+
+```{r normal1, fig.height=10}
+
+par(mfrow = c(4,3))
+
+for(i in 1:length(unique(techno.data$summary))) {
+  groupn <- data_europe[data_europe$summary == unique(techno.data$summary)[i], "length.width.thickness.2"]
+  
+  title <- paste(unique(techno.data$summary)[i])
+  
+  #Lilliefors test
+  pvalue <- signif(lillie.test(groupn)$p.value, digits = 3)
+  sample.size <- length(groupn)
+  
+  hist(groupn, breaks = seq(0,500,10), main = title, xlab = "sharp edge/flake size ratio", col = cividis(3)[2])
+  legend(x = .25 * par('usr')[2], y = .9 * par('usr')[4], 
+         legend = c(paste0("Lilliefors test p-value: ", pvalue), paste0("sample size: ", sample.size)), bty = "n")
+}
+
+
+```
+
+All groups present p-values under 0.003 [@Courtenay2024] except for the
+Levallois + Blade group. It is therefore removed from further analysis,
+as well as assemblages with no technological information available. 
+
+```{r remove}
+
+data_europe_red <- data_europe[data_europe$summary != "",]
+data_europe_red <- data_europe[data_europe$summary != "Lev+Blade",]
+
+```
+
+We now check for homogeneity of variance in each group. We choose the
+Brown-Forsythe test [@Brown1974] because the data have high numbers of
+outliers. 
+
+```{r bf-test1}
+
+res.bf <- bf.test(length.width.thickness.2 ~ summary, data = data_europe_red)
+summary(res.bf)
+
+```
+
+The p-value is under 0.003, we thus reject the hypothesis of homogeneity
+of variances. Since our normal distributions do not have the same scale,
+we use the Kruskall-Wallis test [@Kruskall1952] to see if at least one
+group is significantly different from the others from the point of view
+of their EFS ratio. 
+
+```{r kw1}
+res.kw <- kruskal.test(length.width.thickness.2 ~ summary, data = data_europe_red)
+print(res.kw)
+```
+
+The p-value is well under 0.003, we can thus reject the hypothesis that
+all distributions come from the same initial distribution. There is at
+least one group that is significantly different from the rest. 
+
+```{r plot-kw, fig.height=8}
+
+par(mfrow = c(1,1), mar = c(10, 4.1, 4.1, 2.1) )
+boxplot(length.width.thickness.2 ~ summary, data = data_europe_red, col = colors, las = 2,
+        xlab = "", ylab = "sharp edge/flake size ratio")
+text(x = .85 * par('usr')[2], y = .9 * par('usr')[4], paste0("Kruskal-Wallis p-value: ", res.kw$p.value), cex = 0.9)
+
+```
+
+### Data grouped by technocomplex
+
+We now explore morphometric coherence of techno-complex categories. 
+
+Before running statistical differentiation tests, we check for each
+groups' distribution normality via a Lilliefors test. 
+
+```{r normal2, fig.height=10}
+
+par(mfrow = c(3,3))
+
+for(i in 1:length(unique(data_europe$TCL))) {
+  groupn <- data_europe[data_europe$TCL == unique(data_europe$TCL)[i], "length.width.thickness.2"]
+  
+  title <- paste(unique(data_europe$TCL)[i])
+  
+  #Shapiro Wilks test
+  pvalue <- signif(lillie.test(groupn)$p.value, digits = 3)
+  sample.size <- length(groupn)
+  
+  hist(groupn, breaks = seq(0,500,10), main = title, xlab = "sharp edge/flake size", col = cividis(3)[2])
+  legend(x = .25 * par('usr')[2], y = .9 * par('usr')[4], 
+        legend = c(paste0("Lilliefors test p-value: ", pvalue), paste0("sample size: ", sample.size)), bty = "n")
+}
+
+```
+
+All groups present p-values under 0.003 [@Courtenay2024]. 
+
+We now check for homogeneity of variance in each group. We choose the
+Brown Forsythe test because the data have high numbers of outliers. 
+
+```{r bf-test2}
+
+res.bf <- bf.test(length.width.thickness.2 ~ TCL, data = data_europe_red)
+summary(res.bf)
+
+```
+
+The p-value is under 0.003, we thus reject the hypothesis of homogeneity
+of variances. Since our normal distributions do not have the same scale,
+we use the Kruskall-Wallis test to see if at least one group is
+significantly different from the others from the point of view of their
+EFS ratio. 
+
+```{r kw2}
+res.kw <- kruskal.test(length.width.thickness.2 ~ TCL, data = data_europe_red)
+print(res.kw)
+```
+
+The p-value is well under 0.003, we can thus reject the hypothesis that
+all distributions come from the same initial distribution. There is at
+least one group that is significantly different from the rest. 
+
+```{r plot-kw2, fig.height=8}
+
+order.tcl <- c("Quina Mousterian", "Mousterian", "MTA", "Chatelperronian", "Aurignacian", "Gravettian", "Solutrean", "Magdalenian")
+data_europe$TCL <- factor(data_europe$TCL, levels = order.tcl)
+
+par(mfrow = c(1,1), mar = c(10, 4.1, 4.1, 2.1) )
+boxplot(length.width.thickness.2 ~ TCL, data = data_europe, col = cividis(3)[2], las = 2,
+        xlab = "", ylab = "sharp edge/flake size ratio")
+text(x = .85 * par('usr')[2], y = .9 * par('usr')[4], paste0("Kruskal-Wallis p-value: ", res.kw$p.value), cex = 0.9)
+
+```
+
+# References cited 
