@@ -1,5 +1,5 @@
 ---
-title: "Supplementary information"
+title: "Supplementary information 1"
 author: 
   - name: Anaïs L. Vignoles
     affiliation: University of Cologne
@@ -18,7 +18,6 @@ output:
     theme: sandstone
     highlight: zenburn
 bibliography: "biblio-suppl.bib"
-nocite: "@*"
 link_citations: true
 editor_options: 
   markdown: 
@@ -400,13 +399,11 @@ from drawings and general typological descriptions in older body of
 literature. We also provide some contextual information and precision
 about research biases whenever we deemed necessary, in order to better
 assess the quality of information gathered in the literature. The result
-of this work is available in Table 1. 
-
-![Table 1: Litterature review for technological systems identification in the assemblages analyzed by Rezek et al. 2018](table1.png)
+of this work is available in Supplementary 2. 
 
 ## Coding technological data resulting from literature review
 
-Following Table 1, we code technological information in
+Following Supplementary 2, we code technological information in
 the following way:
 
 ### Full data set
